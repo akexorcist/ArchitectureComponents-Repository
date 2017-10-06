@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidArchComponents</string>
+    <string name="welcome_user">Welcome Player</string>
+    <string name="choose_your_favourite_hero">Choose Your Favourite Hero</string>
+</resources>
