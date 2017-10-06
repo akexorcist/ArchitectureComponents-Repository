@@ -2,6 +2,7 @@ package com.akexorcist.repositoryarchcomponents.ui.hero;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class HeroActivity extends AppCompatActivity {
     private RecyclerView rvHeroes;
+    private SwipeRefreshLayout srHeroes;
     private HeroInfoAdapter heroInfoAdapter;
 
     private HeroViewModel viewModel;
@@ -44,6 +46,7 @@ public class HeroActivity extends AppCompatActivity {
 
     private void bindView() {
         rvHeroes = findViewById(R.id.rvHeroes);
+        srHeroes = findViewById(R.id.srHeroes);
     }
 
     private void setupView() {
@@ -52,6 +55,7 @@ public class HeroActivity extends AppCompatActivity {
         heroInfoAdapter.setHeroInfoListener(onHeroSelected());
         rvHeroes.setLayoutManager(new LinearLayoutManager(this));
         rvHeroes.setAdapter(heroInfoAdapter);
+        srHeroes.setOnRefreshListener(onSwipeToRefresh());
     }
 
     private void setupActionBar() {
@@ -61,6 +65,8 @@ public class HeroActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void updateHeroes(List<Hero> heroes) {
         heroInfoAdapter.setHeroes(heroes);
         heroInfoAdapter.notifyDataSetChanged();
@@ -68,7 +74,13 @@ public class HeroActivity extends AppCompatActivity {
 
     private HeroInfoAdapter.HeroInfoListener onHeroSelected() {
         return hero -> {
-            // TODO
+            // TODO Show vote confirmation dialog
+        };
+    }
+
+    private SwipeRefreshLayout.OnRefreshListener onSwipeToRefresh() {
+        return () -> {
+            // TODO Force update
         };
     }
 }
