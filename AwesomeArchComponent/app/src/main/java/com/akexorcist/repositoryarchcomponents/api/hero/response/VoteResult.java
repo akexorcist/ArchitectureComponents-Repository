@@ -15,26 +15,19 @@ public class VoteResult {
     public VoteResult() {
     }
 
-    public VoteResult(String status, String message) {
-        this.status = status;
-        this.message = message;
-    }
-
     public String getStatus() {
         return status;
     }
 
-    public VoteResult setStatus(String status) {
+    public void setStatus(String status) {
         this.status = status;
-        return this;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public VoteResult setMessage(String message) {
+    public void setMessage(String message) {
         this.message = message;
-        return this;
     }
 }

@@ -18,57 +18,44 @@ public class Hero {
     public Hero() {
     }
 
-    public Hero(String id, String name, String alias, String type, String url) {
-        this.id = id;
-        this.name = name;
-        this.alias = alias;
-        this.type = type;
-        this.url = url;
-    }
-
     public String getId() {
         return id;
     }
 
-    public Hero setId(String id) {
+    public void setId(String id) {
         this.id = id;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public Hero setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public String getAlias() {
         return alias;
     }
 
-    public Hero setAlias(String alias) {
+    public void setAlias(String alias) {
         this.alias = alias;
-        return this;
     }
 
     public String getType() {
         return type;
     }
 
-    public Hero setType(String type) {
+    public void setType(String type) {
         this.type = type;
-        return this;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public Hero setUrl(String url) {
+    public void setUrl(String url) {
         this.url = url;
-        return this;
     }
 
     @Override
