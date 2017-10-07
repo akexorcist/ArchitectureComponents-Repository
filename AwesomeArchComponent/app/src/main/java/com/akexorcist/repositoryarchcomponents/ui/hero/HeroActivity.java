@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -101,17 +100,14 @@ public class HeroActivity extends AppCompatActivity {
 
     private void onHeroesResult(Resource<HeroResult> resource) {
         if (resource.status == Status.SUCCESS) {
-            Log.e("Check", "Success");
             if (resource.data != null) {
                 updateHeroes(resource.data.getHeroes());
             }
             hideRefreshing();
         } else if (resource.status == Status.ERROR) {
-            Log.e("Check", "Error");
             Toast.makeText(this, "Failed to download heroes, please try again", Toast.LENGTH_SHORT).show();
             hideRefreshing();
         } else if (resource.status == Status.LOADING) {
-            Log.e("Check", "Loading");
             showRefreshing();
         }
     }
