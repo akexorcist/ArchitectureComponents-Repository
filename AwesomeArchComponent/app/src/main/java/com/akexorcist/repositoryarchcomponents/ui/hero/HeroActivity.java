@@ -6,10 +6,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.akexorcist.repositoryarchcomponents.R;
+import com.akexorcist.repositoryarchcomponents.api.Resource;
+import com.akexorcist.repositoryarchcomponents.api.Status;
 import com.akexorcist.repositoryarchcomponents.api.hero.response.Hero;
+import com.akexorcist.repositoryarchcomponents.api.hero.response.HeroResult;
 import com.akexorcist.repositoryarchcomponents.ui.hero.adapter.HeroInfoAdapter;
 
 import java.util.List;
@@ -31,7 +36,9 @@ public class HeroActivity extends AppCompatActivity {
     }
 
     private void initViewModel() {
-        viewModel = ViewModelProviders.of(this).get(HeroViewModel.class);
+        viewModel = ViewModelProviders.of(this, new ViewModelProviders.DefaultFactory(getApplication())).get(HeroViewModel.class);
+        viewModel.getHeroesResult().observe(this, this::onHeroesResult);
+        viewModel.getHeroes(false);
     }
 
     @Override
@@ -65,7 +72,13 @@ public class HeroActivity extends AppCompatActivity {
         }
     }
 
+    private void showRefreshing() {
+        srHeroes.setRefreshing(true);
+    }
 
+    private void hideRefreshing() {
+        srHeroes.setRefreshing(false);
+    }
 
     private void updateHeroes(List<Hero> heroes) {
         heroInfoAdapter.setHeroes(heroes);
@@ -75,12 +88,31 @@ public class HeroActivity extends AppCompatActivity {
     private HeroInfoAdapter.HeroInfoListener onHeroSelected() {
         return hero -> {
             // TODO Show vote confirmation dialog
+            Toast.makeText(this, hero.getName(), Toast.LENGTH_SHORT).show();
         };
     }
 
     private SwipeRefreshLayout.OnRefreshListener onSwipeToRefresh() {
         return () -> {
-            // TODO Force update
+            viewModel.getHeroes(true);
+            hideRefreshing();
         };
+    }
+
+    private void onHeroesResult(Resource<HeroResult> resource) {
+        if (resource.status == Status.SUCCESS) {
+            Log.e("Check", "Success");
+            if (resource.data != null) {
+                updateHeroes(resource.data.getHeroes());
+            }
+            hideRefreshing();
+        } else if (resource.status == Status.ERROR) {
+            Log.e("Check", "Error");
+            Toast.makeText(this, "Failed to download heroes, please try again", Toast.LENGTH_SHORT).show();
+            hideRefreshing();
+        } else if (resource.status == Status.LOADING) {
+            Log.e("Check", "Loading");
+            showRefreshing();
+        }
     }
 }

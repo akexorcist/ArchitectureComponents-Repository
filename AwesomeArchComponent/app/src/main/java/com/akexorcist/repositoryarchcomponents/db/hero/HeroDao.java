@@ -20,7 +20,7 @@ public interface HeroDao {
     public void clearAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insert(Hero... heroes);
+    public void insert(List<Hero> heroes);
 
     @Query("SELECT * FROM hero_info")
     LiveData<List<Hero>> queryAll();

@@ -11,7 +11,8 @@
     <!-- Hero Screen -->
     <dimen name="hero_card_width">300dp</dimen>
     <dimen name="hero_card_margin">4dp</dimen>
-    <dimen name="hero_hero_photo_margin">4dp</dimen>
-    <dimen name="hero_hero_information_margin_start">8dp</dimen>
-    <dimen name="hero_hero_photo_size">80dp</dimen>
+    <dimen name="hero_hero_photo_margin_vertical">16dp</dimen>
+    <dimen name="hero_hero_photo_margin_start">24dp</dimen>
+    <dimen name="hero_hero_information_margin_start">16dp</dimen>
+    <dimen name="hero_hero_photo_size">60dp</dimen>
 </resources>

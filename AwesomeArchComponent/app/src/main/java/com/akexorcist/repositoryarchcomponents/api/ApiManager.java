@@ -1,5 +1,6 @@
 package com.akexorcist.repositoryarchcomponents.api;
 
+import com.akexorcist.repositoryarchcomponents.api.config.Url;
 import com.akexorcist.repositoryarchcomponents.api.hero.HeroService;
 
 import okhttp3.OkHttpClient;
@@ -19,7 +20,7 @@ public class ApiManager {
             OkHttpClient.Builder builder = new OkHttpClient.Builder()
                     .addNetworkInterceptor(getDefaultHttpLoggingInterceptor());
             heroService = new Retrofit.Builder()
-                    .baseUrl("http://localhost:7777/")
+                    .baseUrl(Url.ENDPOINT)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                     .client(builder.build())

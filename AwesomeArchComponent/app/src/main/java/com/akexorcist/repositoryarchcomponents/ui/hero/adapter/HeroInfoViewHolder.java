@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.akexorcist.repositoryarchcomponents.R;
+import com.akexorcist.repositoryarchcomponents.api.config.Url;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -48,7 +49,7 @@ public class HeroInfoViewHolder extends RecyclerView.ViewHolder {
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(itemView.getContext())
-                .load(url)
+                .load(Url.ENDPOINT + Url.HERO_PHOTO + "/" + url)
                 .apply(requestOptions)
                 .into(ivPhoto);
     }

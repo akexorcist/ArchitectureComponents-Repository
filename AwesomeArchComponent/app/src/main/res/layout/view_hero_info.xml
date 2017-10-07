@@ -23,7 +23,9 @@
                 android:id="@+id/ivHeroPhoto"
                 android:layout_width="@dimen/hero_hero_photo_size"
                 android:layout_height="@dimen/hero_hero_photo_size"
-                android:layout_margin="@dimen/hero_hero_photo_margin"
+                android:layout_marginBottom="@dimen/hero_hero_photo_margin_vertical"
+                android:layout_marginStart="@dimen/hero_hero_photo_margin_start"
+                android:layout_marginTop="@dimen/hero_hero_photo_margin_vertical"
                 android:contentDescription="@null"
                 android:src="@mipmap/ic_launcher" />
 

@@ -36,6 +36,12 @@ public class ApiResponse<T> {
     @Nullable
     public final String errorMessage;
 
+    public ApiResponse(int code, @Nullable T body, @Nullable String errorMessage) {
+        this.code = code;
+        this.body = body;
+        this.errorMessage = errorMessage;
+    }
+
     public ApiResponse(Throwable error) {
         code = 500;
         body = null;
