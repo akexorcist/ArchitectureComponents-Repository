@@ -5,6 +5,7 @@ package com.akexorcist.repositoryarchcomponents.api.config;
  */
 
 public class Url {
+    //TODO: Don't forget change local endpoint.
     public static final String ENDPOINT = "http://192.168.1.104:7777";
     public static final String HERO_PHOTO = "/images";
     public static final String ALL_HEROES = "/heroes";
