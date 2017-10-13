@@ -14,13 +14,15 @@ import com.akexorcist.repositoryarchcomponents.api.Resource;
 import com.akexorcist.repositoryarchcomponents.api.Status;
 import com.akexorcist.repositoryarchcomponents.api.hero.response.Hero;
 import com.akexorcist.repositoryarchcomponents.api.hero.response.HeroResult;
+import com.akexorcist.repositoryarchcomponents.databinding.ActivityHeroBinding;
 import com.akexorcist.repositoryarchcomponents.ui.hero.adapter.HeroInfoAdapter;
 
 import java.util.List;
 
 public class HeroActivity extends AppCompatActivity {
-    private RecyclerView rvHeroes;
-    private SwipeRefreshLayout srHeroes;
+
+    private ActivityHeroBinding mBinding;
+
     private HeroInfoAdapter heroInfoAdapter;
 
     private HeroViewModel viewModel;
@@ -29,7 +31,6 @@ public class HeroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero);
-        bindView();
         setupView();
         initViewModel();
     }
@@ -50,18 +51,13 @@ public class HeroActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void bindView() {
-        rvHeroes = findViewById(R.id.rvHeroes);
-        srHeroes = findViewById(R.id.srHeroes);
-    }
-
     private void setupView() {
         setupActionBar();
         heroInfoAdapter = new HeroInfoAdapter();
         heroInfoAdapter.setHeroInfoListener(onHeroSelected());
-        rvHeroes.setLayoutManager(new LinearLayoutManager(this));
-        rvHeroes.setAdapter(heroInfoAdapter);
-        srHeroes.setOnRefreshListener(onSwipeToRefresh());
+        mBinding.rvHeroes.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.rvHeroes.setAdapter(heroInfoAdapter);
+        mBinding.srHeroes.setOnRefreshListener(onSwipeToRefresh());
     }
 
     private void setupActionBar() {
@@ -72,11 +68,11 @@ public class HeroActivity extends AppCompatActivity {
     }
 
     private void showRefreshing() {
-        srHeroes.setRefreshing(true);
+        mBinding.srHeroes.setRefreshing(true);
     }
 
     private void hideRefreshing() {
-        srHeroes.setRefreshing(false);
+        mBinding.srHeroes.setRefreshing(false);
     }
 
     private void updateHeroes(List<Hero> heroes) {

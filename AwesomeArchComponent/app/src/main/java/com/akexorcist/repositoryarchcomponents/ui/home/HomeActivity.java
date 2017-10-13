@@ -7,25 +7,22 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.akexorcist.repositoryarchcomponents.R;
+import com.akexorcist.repositoryarchcomponents.databinding.ActivityHomeBinding;
 import com.akexorcist.repositoryarchcomponents.ui.hero.HeroActivity;
 
 public class HomeActivity extends AppCompatActivity {
-    private ImageButton btnNext;
+
+    private ActivityHomeBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        bindView();
         setupView();
     }
 
-    private void bindView() {
-        btnNext = findViewById(R.id.btnNext);
-    }
-
     private void setupView() {
-        btnNext.setOnClickListener(onShowHeroes());
+        mBinding.btnNext.setOnClickListener(onShowHeroes());
     }
 
     private View.OnClickListener onShowHeroes() {
