@@ -1,11 +1,11 @@
 package com.akexorcist.repositoryarchcomponents.ui.hero;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -14,13 +14,15 @@ import com.akexorcist.repositoryarchcomponents.api.Resource;
 import com.akexorcist.repositoryarchcomponents.api.Status;
 import com.akexorcist.repositoryarchcomponents.api.hero.response.Hero;
 import com.akexorcist.repositoryarchcomponents.api.hero.response.HeroResult;
+import com.akexorcist.repositoryarchcomponents.databinding.ActivityHeroBinding;
 import com.akexorcist.repositoryarchcomponents.ui.hero.adapter.HeroInfoAdapter;
 
 import java.util.List;
 
 public class HeroActivity extends AppCompatActivity {
-    private RecyclerView rvHeroes;
-    private SwipeRefreshLayout srHeroes;
+
+    private ActivityHeroBinding mBinding;
+
     private HeroInfoAdapter heroInfoAdapter;
 
     private HeroViewModel viewModel;
@@ -28,8 +30,7 @@ public class HeroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hero);
-        bindView();
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_hero);
         setupView();
         initViewModel();
     }
@@ -50,18 +51,13 @@ public class HeroActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void bindView() {
-        rvHeroes = findViewById(R.id.rvHeroes);
-        srHeroes = findViewById(R.id.srHeroes);
-    }
-
     private void setupView() {
         setupActionBar();
         heroInfoAdapter = new HeroInfoAdapter();
         heroInfoAdapter.setHeroInfoListener(onHeroSelected());
-        rvHeroes.setLayoutManager(new LinearLayoutManager(this));
-        rvHeroes.setAdapter(heroInfoAdapter);
-        srHeroes.setOnRefreshListener(onSwipeToRefresh());
+        mBinding.rvHeroes.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.rvHeroes.setAdapter(heroInfoAdapter);
+        mBinding.srHeroes.setOnRefreshListener(onSwipeToRefresh());
     }
 
     private void setupActionBar() {
@@ -72,11 +68,11 @@ public class HeroActivity extends AppCompatActivity {
     }
 
     private void showRefreshing() {
-        srHeroes.setRefreshing(true);
+        mBinding.srHeroes.setRefreshing(true);
     }
 
     private void hideRefreshing() {
-        srHeroes.setRefreshing(false);
+        mBinding.srHeroes.setRefreshing(false);
     }
 
     private void updateHeroes(List<Hero> heroes) {
@@ -99,16 +95,20 @@ public class HeroActivity extends AppCompatActivity {
     }
 
     private void onHeroesResult(Resource<HeroResult> resource) {
-        if (resource.status == Status.SUCCESS) {
-            if (resource.data != null) {
-                updateHeroes(resource.data.getHeroes());
+        if (resource != null) {
+            if (resource.status == Status.SUCCESS) {
+                if (resource.data != null) {
+                    updateHeroes(resource.data.getHeroes());
+                }
+                hideRefreshing();
+            } else if (resource.status == Status.ERROR) {
+                Toast.makeText(this, "Failed to download heroes, please try again", Toast.LENGTH_SHORT).show();
+                hideRefreshing();
+            } else if (resource.status == Status.LOADING) {
+                showRefreshing();
             }
-            hideRefreshing();
-        } else if (resource.status == Status.ERROR) {
-            Toast.makeText(this, "Failed to download heroes, please try again", Toast.LENGTH_SHORT).show();
-            hideRefreshing();
-        } else if (resource.status == Status.LOADING) {
-            showRefreshing();
+        } else {
+            Toast.makeText(this, "Resource is null", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    tools:context="com.akexorcist.repositoryarchcomponents.ui.home.HomeActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageButton
-        android:id="@+id/btnNext"
-        style="@style/AccentButton"
-        android:layout_width="@dimen/home_button_next_size"
-        android:layout_height="@dimen/home_button_next_size"
-        android:background="@drawable/shape_button_background_oval_accent"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_navigate_next_white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        tools:context="com.akexorcist.repositoryarchcomponents.ui.home.HomeActivity">
 
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/btnNext"
+            style="@style/AccentButton"
+            android:layout_width="@dimen/home_button_next_size"
+            android:layout_height="@dimen/home_button_next_size"
+            android:background="@drawable/shape_button_background_oval_accent"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_navigate_next_white" />
+    </LinearLayout>
+</layout>

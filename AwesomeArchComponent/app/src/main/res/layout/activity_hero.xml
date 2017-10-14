@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/srHeroes"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context="com.akexorcist.repositoryarchcomponents.ui.hero.HeroActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvHeroes"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srHeroes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/view_hero_info" />
-</android.support.v4.widget.SwipeRefreshLayout>
+        android:background="@color/background"
+        tools:context="com.akexorcist.repositoryarchcomponents.ui.hero.HeroActivity">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvHeroes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/view_hero_info" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</layout>
