@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package com.akexorcist.repositoryarchcomponents.util;
+package com.akexorcist.repositoryarchcomponents.util
 
-import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.LiveData
 
 /**
- * A LiveData class that has {@code null} value.
+ * A LiveData class that has `null` value.
  */
-@SuppressWarnings("unchecked")
-
-public class AbsentLiveData extends LiveData {
-    private AbsentLiveData() {
-        postValue(null);
+class AbsentLiveData<T> private constructor() : LiveData<T>() {
+    init {
+        postValue(null)
     }
 
-    public static <T> LiveData<T> create() {
-        return new AbsentLiveData();
+    companion object {
+        fun <T> create(): LiveData<T> {
+            return AbsentLiveData()
+        }
+
     }
 }
