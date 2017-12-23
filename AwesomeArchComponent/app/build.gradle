@@ -1,11 +1,17 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.akexorcist.repositoryarchcomponents"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -13,56 +19,111 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+            }
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    dataBinding {
-        enabled true
-    }
+}
+
+def dependencyGroup(Closure closure) {
+    closure.delegate = dependencies
+    return closure
+}
+
+def ui = dependencyGroup {
+    // Support libraries
+    implementation deps.support.app_compat
+    implementation deps.support.constraint_layout
+    implementation deps.support.v4
+    implementation deps.support.design
+    implementation deps.support.cardview
+}
+
+def glide = dependencyGroup {
+    implementation deps.glide.glide
+    annotationProcessor deps.glide.complier
+}
+
+def network = dependencyGroup {
+    implementation deps.network.retrofit2_converter_gson
+    implementation deps.network.retrofit2, { exclude group: 'com.squareup.okhttp3' }
+    implementation deps.network.okhttp
+    implementation deps.network.okhttp_logging_interceptor
+}
+
+def architectureComponents = dependencyGroup {
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
+    kapt deps.lifecycle.compiler
+    implementation deps.room.runtime
+    kapt deps.room.compiler
+    implementation deps.room.rxjava2
+}
+
+def rxJava = dependencyGroup {
+    implementation deps.rx_android, { exclude group: "io.reactivex.rxjava2" }
+    implementation deps.rxjava2
+}
+
+def kotlin = dependencyGroup {
+    implementation deps.kotlin.stdlib
+}
+
+def localUnitTest = dependencyGroup {
+    testImplementation deps.junit
+    testImplementation deps.mockito.all
+    testImplementation deps.hamcrest
+    testImplementation deps.arch_core.testing
+    testImplementation deps.kotlin.stdlib
+    testImplementation deps.kotlin.test
+}
+
+def androidTestingSupportRunnerRule = dependencyGroup {
+    androidTestCompile deps.atsl.runner
+    androidTestCompile deps.atsl.rules
+    androidTestCompile deps.room.testing, { exclude group: 'com.google.code.gson' }
+    androidTestCompile deps.arch_core.testing
+}
+
+def androidUnitTests = dependencyGroup {
+    androidTestCompile deps.junit
+    androidTestCompile deps.mockito.core, { exclude group: 'net.bytebuddy' }
+    androidTestCompile deps.dexmaker
+}
+
+def esspressoUiTest = dependencyGroup {
+    androidTestCompile deps.espresso.core
+    androidTestCompile deps.espresso.contrib
+    androidTestCompile deps.espresso.intents
+}
+
+def resolveConflictsBetweenMainAndTestApk = dependencyGroup {
+    androidTestCompile deps.support.annotations
+    androidTestCompile deps.support.v4
+    androidTestCompile deps.support.app_compat
+    androidTestCompile deps.support.design
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
-    implementation('io.reactivex.rxjava2:rxandroid:2.0.1') {
-        exclude group: "io.reactivex.rxjava2"
-    }
-    implementation('com.squareup.retrofit2:retrofit:2.3.0') {
-        exclude group: "com.squareup.okhttp3"
-    }
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-
-    implementation 'android.arch.lifecycle:runtime:1.0.0'
-    implementation 'android.arch.lifecycle:extensions:1.0.0-alpha9-1'
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha9-1"
-
-    implementation 'android.arch.persistence.room:runtime:1.0.0-alpha9-1'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-alpha9-1'
-    implementation 'android.arch.persistence.room:rxjava2:1.0.0-alpha9-1'
-
-    implementation 'com.github.bumptech.glide:glide:4.2.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
-
-    implementation('com.afollestad.material-dialogs:core:0.9.4.7') {
-        exclude group: "com.android.support"
-    }
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    ui()
+    glide()
+    network()
+    architectureComponents()
+    rxJava()
+    kotlin()
+    localUnitTest()
+    androidTestingSupportRunnerRule()
+    androidUnitTests()
+    esspressoUiTest()
+    resolveConflictsBetweenMainAndTestApk()
 }
