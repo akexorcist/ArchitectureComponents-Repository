@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.akexorcist.repositoryarchcomponents.api;
+package com.akexorcist.repositoryarchcomponents.api
 
 /**
  * Status of a resource that is provided to the UI.
- * <p>
+ *
+ *
  * These are usually created by the Repository classes where they return
- * {@code LiveData<Resource<T>>} to pass back the latest data to the UI with its fetch status.
+ * `LiveData<Resource<T>>` to pass back the latest data to the UI with its fetch status.
  */
-public enum Status {
+enum class Status {
     SUCCESS,
     ERROR,
     LOADING

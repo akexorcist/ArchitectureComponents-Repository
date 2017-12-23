@@ -6,11 +6,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.akexorcist.repositoryarchcomponents.R;
-import com.akexorcist.repositoryarchcomponents.api.config.Url;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.akexorcist.repositoryarchcomponents.R;
+
+import static com.akexorcist.repositoryarchcomponents.api.config.UrlKt.ENDPOINT;
+import static com.akexorcist.repositoryarchcomponents.api.config.UrlKt.HERO_PHOTO;
 
 /**
  * Created by Akexorcist on 10/6/2017 AD.
@@ -49,7 +51,7 @@ public class HeroInfoViewHolder extends RecyclerView.ViewHolder {
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(itemView.getContext())
-                .load(Url.ENDPOINT + Url.HERO_PHOTO + "/" + url)
+                .load(ENDPOINT + HERO_PHOTO + "/" + url)
                 .apply(requestOptions)
                 .into(ivPhoto);
     }

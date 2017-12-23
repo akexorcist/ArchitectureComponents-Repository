@@ -6,11 +6,9 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.akexorcist.repositoryarchcomponents.api.Resource;
-import com.akexorcist.repositoryarchcomponents.api.hero.response.HeroResult;
+import com.akexorcist.repositoryarchcomponents.api.hero.respond.HeroResult;
 import com.akexorcist.repositoryarchcomponents.repo.hero.HeroRepository;
 import com.akexorcist.repositoryarchcomponents.util.AbsentLiveData;
-
-import java.util.Objects;
 
 /**
  * Created by Akexorcist on 10/6/2017 AD.
@@ -22,7 +20,7 @@ public class HeroViewModel extends ViewModel {
     private final MutableLiveData<Boolean> forceFetchHero = new MutableLiveData<>();
 
     public HeroViewModel() {
-        this.heroRepository = HeroRepository.getInstance();
+        this.heroRepository = HeroRepository.Companion.getInstance();
         this.heroResult = Transformations.switchMap(forceFetchHero, forceFetch -> {
             if (forceFetch == null) {
                 return AbsentLiveData.create();
@@ -48,6 +46,10 @@ public class HeroViewModel extends ViewModel {
     }
 
     private boolean isShouldBeSkip(boolean newForceFetch, boolean oldForceFetch) {
-        return Objects.equals(newForceFetch, oldForceFetch) || (newForceFetch && !oldForceFetch);
+        return equals(newForceFetch, oldForceFetch) || (newForceFetch && !oldForceFetch);
+    }
+
+    public static boolean equals(Object a, Object b) {
+        return (a == b) || (a != null && a.equals(b));
     }
 }

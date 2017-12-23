@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import com.akexorcist.repositoryarchcomponents.R;
 import com.akexorcist.repositoryarchcomponents.ui.hero.HeroActivity;
 
+
 public class HomeActivity extends AppCompatActivity {
     private ImageButton btnNext;
 
